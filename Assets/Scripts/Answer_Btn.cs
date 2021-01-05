@@ -8,10 +8,15 @@ public class Answer_Btn : MonoBehaviour
     public RTLTextMeshPro3D TheAnswer;
     private void Awake ()
     {
-        GetComponent<VRTargetItem> ().m_completionEvent.AddListener (() =>
+        var vrTargetItem= GetComponent<VRTargetItem>();
+        if (vrTargetItem)
         {
-            Inst.ValidateAnswer (TheAnswer.OriginalText);
-        });
+            vrTargetItem.m_completionEvent.AddListener(() =>
+            {
+                Inst.ValidateAnswer(TheAnswer.OriginalText);
+            });
+        }
+
     }
     public void OnMouseDown ()
     {

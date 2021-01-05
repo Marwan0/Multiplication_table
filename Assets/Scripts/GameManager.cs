@@ -49,16 +49,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Change the question.
+    /// </summary>
     void Choose_Question ()
     {
         Q_num_1 = Random.Range (1, 13);
         Q_num_2 = Random.Range (1, 13);
         Question.text = Q_num_1.ToString () + " x " + Q_num_2.ToString ();
         Answer = Q_num_1 * Q_num_2;
-        print (Answer);
+        //print (Answer);
         Random_Answers ();
 
     }
+
+
 
     void Random_Answers ()
     {
@@ -74,6 +79,10 @@ public class GameManager : MonoBehaviour
 
     }
 
+
+    /// <summary>
+    /// 
+    /// </summary>
     void scaleDownBallons ()
     {
         Ballon_1.transform.DOScale (Vector3.zero, 2f);
@@ -91,6 +100,12 @@ public class GameManager : MonoBehaviour
         Ballon_4.transform.DOScale (Vector3.zero, 2f);
         Ballon_5.transform.DOScale (Vector3.zero, 2f);
     }
+
+
+
+    /// <summary>
+    /// Scale up ballons
+    /// </summary>
     void AnimateBallons ()
     {
         Ballon_1.transform.DOScale (new Vector3 (0.4605395f, 0.4605395f, 0.4605395f), 2f);
@@ -106,6 +121,12 @@ public class GameManager : MonoBehaviour
         Ballon_5.transform.DOMove (Animation_ballon_Pos5.transform.position, 2f).From (Ballon_5.transform.position + (Vector3.up * 5));
     }
 
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="TheAnswer"></param>
     public void ValidateAnswer (string TheAnswer)
     {
 
