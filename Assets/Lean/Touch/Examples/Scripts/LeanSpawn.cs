@@ -12,18 +12,7 @@ namespace Lean.Touch
 		[Tooltip("The prefab that this component can spawn.")]
 		public Transform Prefab;
 
-		/// <summary>This will spawn <b>Prefab</b>.</summary>
-		public void Spawn()
-		{
-			if (Prefab != null)
-			{
-				var clone = Instantiate(Prefab);
-
-				clone.gameObject.SetActive(true);
-			}
-		}
-
-		/// <summary>This will spawn <b>Prefab</b> at the specified position in world space.</summary>
+		/// <summary>This will spawn Prefab at the specified finger based on the ScreenDepth setting.</summary>
 		public void Spawn(Vector3 position)
 		{
 			if (Prefab != null)

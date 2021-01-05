@@ -6123,8 +6123,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 861025990}
-  m_LocalRotation: {x: 0.12617567, y: -0.71448123, z: 0.119679615, w: 0.6776969}
-  m_LocalPosition: {x: 0, y: 0, z: 0.336}
+  m_LocalRotation: {x: 0.10947492, y: -0.79682577, z: 0.13512494, w: 0.57864076}
+  m_LocalPosition: {x: 0, y: 0, z: -0.43}
   m_LocalScale: {x: 0.017831227, y: 0.017831227, z: 0.017831227}
   m_Children:
   - {fileID: 102717817}
@@ -6132,10 +6132,10 @@ RectTransform:
   - {fileID: 1656094024}
   m_Father: {fileID: 0}
   m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 20.001001, y: -93.22201, z: -1.103}
+  m_LocalEulerAnglesHint: {x: 20.001, y: -108.222, z: -1.103}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.362, y: 4.304}
+  m_AnchoredPosition: {x: 8.12, y: 4.304}
   m_SizeDelta: {x: 99.94, y: 32.769}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &888789613
@@ -16945,6 +16945,8 @@ GameObject:
   - component: {fileID: 1468921496}
   - component: {fileID: 1468921495}
   - component: {fileID: 1468921494}
+  - component: {fileID: 1468921502}
+  - component: {fileID: 1468921501}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -16985,8 +16987,6 @@ MonoBehaviour:
     RequiredSelectable: {fileID: 0}
   Axis: {x: 0, y: -1, z: 0}
   Space: 1
-  Speed: 3
-  viewRange: 40
 --- !u!114 &1468921496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17079,13 +17079,102 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1468921493}
-  m_LocalRotation: {x: -0, y: -0.86602515, z: -0, w: 0.50000054}
-  m_LocalPosition: {x: 11.46, y: 4.537, z: 1.73}
+  m_LocalRotation: {x: -0.01482238, y: -0.80875975, z: -0.020401252, w: 0.5875984}
+  m_LocalPosition: {x: 9.77, y: 4.537, z: 0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 17
-  m_LocalEulerAnglesHint: {x: 0, y: -120, z: 0}
+  m_LocalEulerAnglesHint: {x: -3.86, y: -118.331, z: 0}
+--- !u!114 &1468921501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468921493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbeb146a97fd79458dbfd62255e3348, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 1468921499}
+  DefaultRotation: {x: 0, y: 0}
+  Dampening: -1
+  Pitch: -2.89
+  PitchSensitivity: 0.25
+  PitchClamp: 0
+  PitchMin: -90
+  PitchMax: 90
+  Yaw: -108
+  YawSensitivity: 0.25
+  YawClamp: 0
+  YawMin: -45
+  YawMax: 45
+  currentPitch: -2.89
+  currentYaw: -108
+--- !u!114 &1468921502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468921493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5726d77b04f1a53448ffb9873ac0e474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Use:
+    Filter: 0
+    IgnoreStartedOverGui: 1
+    RequiredFingerCount: 0
+    RequiredMouseButtons: 0
+    RequiredSelectable: {fileID: 0}
+  IgnoreIfStatic: 0
+  onFingers:
+    m_PersistentCalls:
+      m_Calls: []
+  Coordinate: 0
+  Multiplier: 1
+  onDelta:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1468921501}
+        m_TargetAssemblyTypeName: Lean.Touch.LeanPitchYaw, Assembly-CSharp
+        m_MethodName: Rotate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onDistance:
+    m_PersistentCalls:
+      m_Calls: []
+  ScreenDepth:
+    Conversion: 1
+    Camera: {fileID: 0}
+    Object: {fileID: 0}
+    Layers:
+      serializedVersion: 2
+      m_Bits: 4294967291
+    Distance: 0
+  onWorldFrom:
+    m_PersistentCalls:
+      m_Calls: []
+  onWorldTo:
+    m_PersistentCalls:
+      m_Calls: []
+  onWorldDelta:
+    m_PersistentCalls:
+      m_Calls: []
+  onWorldFromTo:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1470450476
 GameObject:
   m_ObjectHideFlags: 0
@@ -22410,6 +22499,7 @@ GameObject:
   - component: {fileID: 2121827694}
   - component: {fileID: 2121827693}
   - component: {fileID: 2121827692}
+  - component: {fileID: 2121827695}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -22465,6 +22555,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2121827695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121827691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc98219a83dff145947365dc914d06e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TapThreshold: 0.2
+  SwipeThreshold: 100
+  ReferenceDpi: 200
+  GuiLayers:
+    serializedVersion: 2
+    m_Bits: 4294967291
+  RecordFingers: 1
+  RecordThreshold: 5
+  RecordLimit: 10
+  SimulateMultiFingers: 1
+  PinchTwistKey: 306
+  MovePivotKey: 308
+  MultiDragKey: 308
+  FingerTexture: {fileID: 2800000, guid: 25c48be3a87ea0f489a6d41c9c9a2194, type: 3}
 --- !u!1 &2124947607
 GameObject:
   m_ObjectHideFlags: 0

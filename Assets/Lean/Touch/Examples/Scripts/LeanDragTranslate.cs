@@ -95,17 +95,7 @@ namespace Lean.Touch
 
 		private void TranslateUI(Vector2 screenDelta)
 		{
-			var camera = Camera;
-
-			if (camera == null)
-			{
-				var canvas = transform.GetComponentInParent<Canvas>();
-
-				if (canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay)
-				{
-					camera = canvas.worldCamera;
-				}
-			}
+			var camera = LeanTouch.GetCamera(Camera, gameObject);
 
 			// Screen position of the transform
 			var screenPoint = RectTransformUtility.WorldToScreenPoint(camera, transform.position);

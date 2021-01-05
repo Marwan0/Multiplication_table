@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace Lean.Touch
 {
 	/// <summary>This component stores a list of points that form a path.</summary>
-	[ExecuteInEditMode]
 	[HelpURL(LeanTouch.HelpUrlPrefix + "LeanPath")]
 	[AddComponentMenu(LeanTouch.ComponentPathPrefix + "Path")]
 	public class LeanPath : MonoBehaviour
@@ -24,10 +23,6 @@ namespace Lean.Touch
 		/// <summary>The amount of lines between each path point when read from LeanScreenDepth.</summary>
 		[Tooltip("The amount of lines between each path point when read from LeanScreenDepth.")]
 		public int Smoothing = 1;
-
-		/// <summary>This allows you to draw a visual of the path using a <b>LineRenderer</b>.</summary>
-		[Tooltip("This allows you to draw a visual of the path using a LineRenderer.")]
-		public LineRenderer Visual;
 
 		public static Vector3 LastWorldNormal = Vector3.forward;
 
@@ -56,15 +51,10 @@ namespace Lean.Touch
 			}
 		}
 
-		public int GetPointCount(int smoothing = -1)
+		public int GetPointCount(int smoothing = 1)
 		{
 			if (Points != null)
 			{
-				if (smoothing < 0)
-				{
-					smoothing = Smoothing;
-				}
-
 				var count = Points.Count;
 
 				if (count >= 2 && smoothing >= 1)
@@ -117,16 +107,11 @@ namespace Lean.Touch
 			return p;
 		}
 
-		public Vector3 GetPoint(int index, int smoothing = -1)
+		public Vector3 GetPoint(int index, int smoothing = 1)
 		{
 			if (Points == null)
 			{
 				throw new System.IndexOutOfRangeException();
-			}
-
-			if (smoothing < 0)
-			{
-				smoothing = Smoothing;
 			}
 
 			if (smoothing < 1)
@@ -185,27 +170,23 @@ namespace Lean.Touch
 			Points.Add(b);
 		}
 
-		public bool TryGetClosest(Vector3 position, ref Vector3 closestPoint, ref int closestIndexA, ref int closestIndexB, int smoothing = -1)
+		public bool TryGetClosest(Vector3 position, ref Vector3 closestPoint, int smoothing = 1)
 		{
 			var count = GetPointCount(smoothing);
 
 			if (count >= 2)
 			{
-				var indexA          = 0;
-				var pointA          = GetPoint(indexA, smoothing);
+				var pointA          = GetPoint(0, smoothing);
 				var closestDistance = float.PositiveInfinity;
 
 				for (var i = 1; i < count; i++)
 				{
-					var indexB   = i;
-					var pointB   = GetPoint(indexB, smoothing);
+					var pointB   = GetPoint(i, smoothing);
 					var point    = GetClosestPoint(position, pointA, pointB - pointA);
 					var distance = Vector3.Distance(position, point);
 
 					if (distance < closestDistance)
 					{
-						closestIndexA   = indexA;
-						closestIndexB   = i;
 						closestPoint    = point;
 						closestDistance = distance;
 
@@ -213,7 +194,6 @@ namespace Lean.Touch
 					}
 
 					pointA = pointB;
-					indexA = indexB;
 				}
 
 				return true;
@@ -222,21 +202,12 @@ namespace Lean.Touch
 			return false;
 		}
 
-		public bool TryGetClosest(Vector3 position, ref Vector3 closestPoint, int smoothing = -1)
-		{
-			var closestIndexA = default(int);
-			var closestIndexB = default(int);
-
-			return TryGetClosest(position, ref closestPoint, ref closestIndexA, ref closestIndexB, smoothing);
-		}
-
-		public bool TryGetClosest(Ray ray, ref Vector3 closestPoint, ref int closestIndexA, ref int closestIndexB, int smoothing = -1)
+		public bool TryGetClosest(Ray ray, ref Vector3 closestPoint, int smoothing = 1)
 		{
 			var count = GetPointCount(smoothing);
 
 			if (count >= 2)
 			{
-				var indexA          = 0;
 				var pointA          = GetPoint(0, smoothing);
 				var closestDistance = float.PositiveInfinity;
 
@@ -248,8 +219,6 @@ namespace Lean.Touch
 
 					if (distance < closestDistance)
 					{
-						closestIndexA   = indexA;
-						closestIndexB   = i;
 						closestPoint    = point;
 						closestDistance = distance;
 
@@ -257,41 +226,12 @@ namespace Lean.Touch
 					}
 
 					pointA = pointB;
-					indexA = i;
 				}
 
 				return true;
 			}
 
 			return false;
-		}
-
-		public bool TryGetClosest(Ray ray, ref Vector3 currentPoint, int smoothing = -1)
-		{
-			var closestIndexA = default(int);
-			var closestIndexB = default(int);
-
-			return TryGetClosest(ray, ref currentPoint, ref closestIndexA, ref closestIndexB, smoothing);
-		}
-
-		public bool TryGetClosest(Ray ray, ref Vector3 currentPoint, int smoothing = -1, float maximumDelta = -1.0f)
-		{
-			if (maximumDelta > 0.0f)
-			{
-				var closestPoint = currentPoint;
-
-				if (TryGetClosest(ray, ref closestPoint, smoothing) == true)
-				{
-					// Move toward closest point
-					var targetPoint = Vector3.MoveTowards(currentPoint, closestPoint, maximumDelta);
-
-					return TryGetClosest(targetPoint, ref currentPoint, smoothing);
-				}
-
-				return false;
-			}
-
-			return TryGetClosest(ray, ref currentPoint, smoothing);
 		}
 
 		private Vector3 GetClosestPoint(Vector3 position, Vector3 origin, Vector3 direction)
@@ -359,31 +299,10 @@ namespace Lean.Touch
 
 			return g * ttt + h * tt + i * t + b;
 		}
-
-		public void UpdateVisual()
-		{
-			if (Visual != null)
-			{
-				var count = GetPointCount();
-
-				Visual.positionCount = count;
-
-				for (var i = 0; i < count; i++)
-				{
-					Visual.SetPosition(i, GetPoint(i));
-				}
-			}
-		}
-
-		protected virtual void Update()
-		{
-			UpdateVisual();
-		}
-
 #if UNITY_EDITOR
 		protected virtual void OnDrawGizmosSelected()
 		{
-			var count = GetPointCount();
+			var count = PointCount;
 
 			if (count >= 2)
 			{
